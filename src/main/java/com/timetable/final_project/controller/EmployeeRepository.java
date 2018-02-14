@@ -7,12 +7,13 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Component
 public interface EmployeeRepository extends CrudRepository<Employee,Long> {
 
-/*    @Transactional
-    @Modifying
-    @Query()
-    //mpla mpla methods*/
+//@Transactional
+//@Modifying
+//@Query()
 
 }
