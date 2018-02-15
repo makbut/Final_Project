@@ -12,8 +12,6 @@ import java.util.List;
 @Component
 public interface EmployeeRepository extends CrudRepository<Employee,Long> {
 
-//@Transactional
-//@Modifying
-//@Query()
+    Employee findOneByEmailAddress(String mail);
 
 }

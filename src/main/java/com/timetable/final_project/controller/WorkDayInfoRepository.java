@@ -14,13 +14,8 @@ import java.util.List;
 
 @Component
 public interface WorkDayInfoRepository extends CrudRepository<WorkDayInfo,Long> {
-  /*  @Transactional
-    @Modifying
-    @Query()
-    List<WorkDayInfo> getDateById(Date date);
 
-    @Query(value = "SELECT date FROM WorkDayInfo ")
-    List<WorkDayInfo> getDateById();*/
+    WorkDayInfo findOneByDateAndEmployee(String date, Employee employee);
 
-    WorkDayInfo findOneByDateAndEmployeeId(LocalDate date, long employeeId);
+    Iterable<WorkDayInfo> findByEmployee(Employee employee);
 }
