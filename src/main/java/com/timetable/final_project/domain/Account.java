@@ -1,10 +1,10 @@
 package com.timetable.final_project.domain;
 
 import javax.persistence.*;
-
+import java.util.Set;
 
 @Entity
-public class Accounts {
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -13,7 +13,11 @@ public class Accounts {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EMPLOYEE_ID")
-    Employee employee;
+    private Employee employee;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     public long getId() {
         return id;
@@ -39,5 +43,19 @@ public class Accounts {
         this.password = password;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
 
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

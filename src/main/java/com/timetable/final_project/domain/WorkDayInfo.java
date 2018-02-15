@@ -1,6 +1,7 @@
 package com.timetable.final_project.domain;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 public class WorkDayInfo {
@@ -8,12 +9,13 @@ public class WorkDayInfo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private int hours;
+    private LocalDate date;
     private String activity;
     private String workplace;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EMPLOYEE_ID")
-    Employee owner;
+    Employee employee;
 
     public long getId() {
         return id;
@@ -47,6 +49,20 @@ public class WorkDayInfo {
         this.workplace = workplace;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
 
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 }
 

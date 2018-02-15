@@ -3,7 +3,6 @@ package com.timetable.final_project.domain;
 import javax.persistence.*;
 import java.util.List;
 
-
 @Entity
 public class Employee {
     @Id
@@ -15,12 +14,8 @@ public class Employee {
     private int daysOff;
     private int hourlyWage;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRIVILEGE_ID")
-    Privileges privileges;
-
-    @OneToMany(mappedBy="owner")
-    List<WorkDayInfo> workdayinfo;
+    @OneToMany(mappedBy = "employee")
+    private List<WorkDayInfo> workDaysInfo;
 
     public long getId() {
         return id;
@@ -36,14 +31,6 @@ public class Employee {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
-    public String getLastname() {
-        return lastName;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastName = lastname;
     }
 
     public String getEmailAddress() {
@@ -68,5 +55,21 @@ public class Employee {
 
     public void setHourlyWage(int hourlyWage) {
         this.hourlyWage = hourlyWage;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public List<WorkDayInfo> getWorkDaysInfo() {
+        return workDaysInfo;
+    }
+
+    public void setWorkDaysInfo(List<WorkDayInfo> workDaysInfo) {
+        this.workDaysInfo = workDaysInfo;
     }
 }

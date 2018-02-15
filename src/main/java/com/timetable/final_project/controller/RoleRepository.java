@@ -1,9 +1,9 @@
 package com.timetable.final_project.controller;
 
-import com.timetable.final_project.domain.Accounts;
+import com.timetable.final_project.domain.Role;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface AccountsRepository extends CrudRepository<Accounts, Long> {
+public interface RoleRepository extends CrudRepository<Role,Long> {
 }
