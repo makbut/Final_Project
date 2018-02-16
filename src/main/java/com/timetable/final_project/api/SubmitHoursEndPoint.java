@@ -25,6 +25,7 @@ public class SubmitHoursEndPoint {
         if(wdi == null){
             if(submitHours.getActivity().equals("dayOff")){
                 if(employee.getDaysOff()==0){
+                    submitHours.setMessage("Not enough days off");
                     submitHours.setStatusCode(2);
                     return submitHours;
                 }else{
@@ -40,9 +41,11 @@ public class SubmitHoursEndPoint {
                                               );
             workDayInfoService.saveDayInformation(wdi1);
             submitHours.setStatusCode(0);
+            submitHours.setMessage("Success");
             return submitHours;
         }else {
             submitHours.setStatusCode(1);
+            submitHours.setMessage("Wrong date");
             return submitHours;
         }
     }

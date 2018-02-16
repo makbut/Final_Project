@@ -24,10 +24,12 @@ public class RegistrationEndPoint {
 
         if (employeeService.getEmployeeByMail(userRegistration.getEmailAddress()) != null) {
             userRegistration.setStatusCode(1);
+            userRegistration.setMessage("Email address in use");
             return userRegistration;
         }
         if (accountService.retrieveAccountByUsername(userRegistration.getUsername()) != null) {
             userRegistration.setStatusCode(2);
+            userRegistration.setMessage("Username in use");
             return userRegistration;
         }
 
@@ -44,6 +46,7 @@ public class RegistrationEndPoint {
         employeeService.saveEmployee(employee);
         accountService.saveAccount(account);
         userRegistration.setStatusCode(0);
+        userRegistration.setMessage("Success");
         
         return userRegistration;
     }

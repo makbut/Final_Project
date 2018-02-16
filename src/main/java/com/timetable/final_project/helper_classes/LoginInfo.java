@@ -3,7 +3,8 @@ package com.timetable.final_project.helper_classes;
 import com.timetable.final_project.domain.Employee;
 
 public class LoginInfo {
-    private int statuCode=1;
+    private int statuCode = 1;
+    private String message = "Wrong username/password!!!" ;
     private Long id;
     private String firsName;
     private String lastName;
@@ -20,6 +21,14 @@ public class LoginInfo {
         setDaysOff(employee.getDaysOff());
         setWage(employee.getHourlyWage());
         setRole(employee.getRole());
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public int getStatuCode() {
