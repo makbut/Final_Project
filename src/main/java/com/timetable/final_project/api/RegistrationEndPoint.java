@@ -1,10 +1,9 @@
 package com.timetable.final_project.api;
 
+import com.timetable.final_project.exceptions.EmailNotExistsException;
+import com.timetable.final_project.exceptions.UsernameNotExistsException;
 import com.timetable.final_project.controller.AccountService;
 import com.timetable.final_project.controller.EmployeeService;
-import com.timetable.final_project.domain.Account;
-import com.timetable.final_project.domain.Employee;
-import com.timetable.final_project.helper_classes.SubmitHours;
 import com.timetable.final_project.helper_classes.UserRegistration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,34 +20,25 @@ public class RegistrationEndPoint {
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public UserRegistration submitWorkDayInfo(@RequestBody UserRegistration userRegistration) {
-
-        if (employeeService.getEmployeeByMail(userRegistration.getEmailAddress()) != null) {
-            userRegistration.setStatusCode(1);
-            userRegistration.setMessage("Email address in use");
-            return userRegistration;
-        }
-        if (accountService.retrieveAccountByUsername(userRegistration.getUsername()) != null) {
+        try {
+            employeeService.getEmployeeByMail(userRegistration.getEmailAddress());
             userRegistration.setStatusCode(2);
-            userRegistration.setMessage("Username in use");
+            userRegistration.setMessage("email in use");
             return userRegistration;
+        } catch (EmailNotExistsException e) {
+            try {
+                accountService.retrieveAccountByUsername(userRegistration.getUsername());
+                userRegistration.setStatusCode(1);
+                userRegistration.setMessage("username in use");
+                return userRegistration;
+            } catch (UsernameNotExistsException e1) {
+                accountService.registerAccount(userRegistration, employeeService.registerEmployee(userRegistration));
+                userRegistration.setStatusCode(0);
+                userRegistration.setMessage("Success");
+                return userRegistration;
+            }
         }
 
-        Employee employee = new Employee(
-                userRegistration.getFirstName(),
-                userRegistration.getLastName(),
-                userRegistration.getEmailAddress(),
-                userRegistration.getRole(),
-                userRegistration.getHourlyWage(),
-                userRegistration.getDaysOff()
-        );
-        Account account = new Account(userRegistration.getUsername(), userRegistration.getPassword(), employee);
-
-        employeeService.saveEmployee(employee);
-        accountService.saveAccount(account);
-        userRegistration.setStatusCode(0);
-        userRegistration.setMessage("Success");
-        
-        return userRegistration;
     }
 }
 
