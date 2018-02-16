@@ -9,5 +9,8 @@ import java.time.LocalDate;
 @Component
 public interface AccountRepository extends CrudRepository<Account, Long> {
 
-    Account findOneByUsernameAndPassword(String username, String password);
+    Account findByUsernameAndPassword(String username, String password);
+
+    Account findOneByUsername(String username);
+
 }

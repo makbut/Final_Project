@@ -1,5 +1,7 @@
 package com.timetable.final_project.domain;
 
+import com.timetable.final_project.helper_classes.UserRegistration;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,11 +13,28 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String emailAddress;
+    private String role;
     private int daysOff;
     private int hourlyWage;
 
-    @OneToMany(mappedBy = "employee")
-    private List<WorkDayInfo> workDaysInfo;
+    @OneToMany(mappedBy="employee")
+    private List<WorkDayInfo> workDays;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public List<WorkDayInfo> getWorkDays() {
+        return workDays;
+    }
+
+    public void setWorkDays(List<WorkDayInfo> days) {
+        this.workDays = days;
+    }
 
     public long getId() {
         return id;
@@ -31,6 +50,14 @@ public class Employee {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmailAddress() {
@@ -57,19 +84,16 @@ public class Employee {
         this.hourlyWage = hourlyWage;
     }
 
-    public String getLastName() {
-        return lastName;
+    public Employee(){
+
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public List<WorkDayInfo> getWorkDaysInfo() {
-        return workDaysInfo;
-    }
-
-    public void setWorkDaysInfo(List<WorkDayInfo> workDaysInfo) {
-        this.workDaysInfo = workDaysInfo;
+    public Employee(String firstName, String lastName, String emailAddress, String role, int hourlyWage, int daysOff){
+        setFirstName(firstName);
+        setLastName(lastName);
+        setEmailAddress(emailAddress);
+        setRole(role);
+        setHourlyWage(hourlyWage);
+        setDaysOff(daysOff);
     }
 }

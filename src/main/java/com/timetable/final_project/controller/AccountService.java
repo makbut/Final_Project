@@ -1,6 +1,7 @@
 package com.timetable.final_project.controller;
 
 import com.timetable.final_project.domain.Account;
+import com.timetable.final_project.domain.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -8,19 +9,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class AccountService {
-    private final AccountRepository accountRepository;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
+    AccountRepository accountRepository;
+
+    public Account retrieveAccount(String username, String password) {
+        return accountRepository.findByUsernameAndPassword(username, password);
     }
 
-    boolean isValidUser (String username, String password) {
-        Account account = accountRepository.findOneByUsernameAndPassword (username , password);
-        if(account != null){
-            return true;
-        }else {
-            return false;
-        }
+    public Account saveAccount(Account account){
+        return accountRepository.save(account);
     }
+
+    public Account retrieveAccountByUsername(String username){
+        return accountRepository.findOneByUsername(username);
+    }
+
 }

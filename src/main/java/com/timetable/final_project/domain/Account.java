@@ -11,13 +11,27 @@ public class Account {
     private String username;
     private String password;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "EMPLOYEE_ID")
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="EMPLOYEE_ID")
     private Employee employee;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    public Account(){
+
+    }
+
+    public Account(String username, String password, Employee employee){
+        setUsername(username);
+        setPassword(password);
+        setEmployee(employee);
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 
     public long getId() {
         return id;
@@ -41,21 +55,5 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 }
