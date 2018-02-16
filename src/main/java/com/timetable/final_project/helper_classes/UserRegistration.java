@@ -2,6 +2,7 @@ package com.timetable.final_project.helper_classes;
 
 public class UserRegistration {
     private int statusCode;
+    private String message;
     private String firstName;
     private String lastName;
     private String emailAddress;
@@ -10,6 +11,14 @@ public class UserRegistration {
     private int hourlyWage;
     private String username;
     private String password;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public int getStatusCode() {
         return statusCode;

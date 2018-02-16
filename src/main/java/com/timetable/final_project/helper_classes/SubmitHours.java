@@ -2,11 +2,20 @@ package com.timetable.final_project.helper_classes;
 
 public class SubmitHours {
     private int statusCode;
+    private String message;
     private Long employeeId;
     private int hours;
     private String date;
     private String activity;
     private String workplace;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public int getStatusCode() {
         return statusCode;

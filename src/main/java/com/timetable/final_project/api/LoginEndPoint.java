@@ -26,6 +26,7 @@ class LoginEndPoint {
             employee = employeeService.getEmployeeById(account1.getEmployee().getId());
             loginInfo.copyLoginInfo(employee);
             loginInfo.setStatuCode(0);
+            loginInfo.setMessage("Success!!");
         }
         return loginInfo;
     }
