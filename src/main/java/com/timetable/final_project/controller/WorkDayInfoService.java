@@ -3,6 +3,7 @@ package com.timetable.final_project.controller;
 import com.timetable.final_project.domain.Employee;
 import com.timetable.final_project.domain.WorkDayInfo;
 import com.timetable.final_project.enums.Activity;
+import com.timetable.final_project.exceptions.NoSuchEmployeeException;
 import com.timetable.final_project.exceptions.NotEnoughDaysOffException;
 import com.timetable.final_project.exceptions.NotValidDateException;
 import com.timetable.final_project.helper_classes.SubmitHours;
@@ -26,13 +27,13 @@ public class WorkDayInfoService {
 
     public WorkDayInfo submitWorkDayInfo(SubmitHours submitHours) throws NotEnoughDaysOffException, NotValidDateException {
         Employee employee = employeeRepository.findOne(submitHours.getEmployeeId());
-        WorkDayInfo workDayInfo = workDayInfoRepository.findOneByDateAndEmployee(submitHours.getDate(),employee);
+        WorkDayInfo workDayInfo = workDayInfoRepository.findOneByDateAndEmployee(submitHours.getDate(), employee);
 
-        if(workDayInfo!=null){
+        if (workDayInfo != null) {
             throw new NotValidDateException();
         }
 
-        if (submitHours.getActivity()== Activity.DAYOFF) {
+        if (submitHours.getActivity() == Activity.DAYOFF) {
             if (employee.getDaysOff() == 0) {
                 throw new NotEnoughDaysOffException();
             }
@@ -49,6 +50,12 @@ public class WorkDayInfoService {
 
         return workDayInfoRepository.save(wdi);
 
+    }
+
+    public List<WorkDayInfo> findByEmployeeId(long id) throws NoSuchEmployeeException {
+        Employee employee = employeeRepository.findOne(id);
+        if (employee == null) throw new NoSuchEmployeeException();
+        return workDayInfoRepository.findByEmployee(employee);
     }
 
 }
