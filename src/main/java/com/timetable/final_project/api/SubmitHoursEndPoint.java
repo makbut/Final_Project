@@ -8,6 +8,8 @@ import com.timetable.final_project.exceptions.NotEnoughDaysOffException;
 import com.timetable.final_project.exceptions.NotValidDateException;
 import com.timetable.final_project.helper_classes.SubmitHours;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,24 +26,22 @@ public class SubmitHoursEndPoint {
     public SubmitHours submitWorkDayInfo(@RequestBody SubmitHours submitHours) {
 
         try {
-            workDayInfoService.isValidDate(submitHours);
-        } catch (NotValidDateException e) {
-            submitHours.setStatusCode(1);
-            submitHours.setMessage("Wrong date");
+            workDayInfoService.submitWorkDayInfo(submitHours);
+            submitHours.setStatusCode(0);
+            submitHours.setMessage("Success");
             return submitHours;
-        }
-
-        try {
-            workDayInfoService.canTakeDayOff(submitHours);
+           // return ResponseEntity.status(HttpStatus.OK).body(submitHours);
         } catch (NotEnoughDaysOffException e) {
             submitHours.setMessage("Not enough days off");
             submitHours.setStatusCode(2);
             return submitHours;
+        //    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(submitHours);
+        } catch (NotValidDateException e) {
+            submitHours.setStatusCode(1);
+            submitHours.setMessage("Wrong date");
+            return submitHours;
+           // return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(submitHours);
         }
 
-        workDayInfoService.submitWorkDayInfo(submitHours);
-        submitHours.setStatusCode(0);
-        submitHours.setMessage("Success");
-        return submitHours;
     }
 }

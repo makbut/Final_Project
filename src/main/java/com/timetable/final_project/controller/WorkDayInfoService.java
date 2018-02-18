@@ -23,35 +23,32 @@ public class WorkDayInfoService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public boolean isValidDate(SubmitHours submitHours) throws NotValidDateException{
+
+    public WorkDayInfo submitWorkDayInfo(SubmitHours submitHours) throws NotEnoughDaysOffException, NotValidDateException {
         Employee employee = employeeRepository.findOne(submitHours.getEmployeeId());
         WorkDayInfo workDayInfo = workDayInfoRepository.findOneByDateAndEmployee(submitHours.getDate(),employee);
+
         if(workDayInfo!=null){
             throw new NotValidDateException();
         }
-        return true;
-    }
 
-    public boolean canTakeDayOff(SubmitHours submitHours) throws NotEnoughDaysOffException{
         if (submitHours.getActivity()== Activity.DAYOFF) {
-            Employee employee = employeeRepository.findOne(submitHours.getEmployeeId());
             if (employee.getDaysOff() == 0) {
                 throw new NotEnoughDaysOffException();
             }
             employee.setDaysOff(employee.getDaysOff() - 1);
         }
-        return true;
+
+        WorkDayInfo wdi = new WorkDayInfo(
+                employee,
+                submitHours.getDate(),
+                submitHours.getWorkplace(),
+                submitHours.getActivity(),
+                submitHours.getHours()
+        );
+
+        return workDayInfoRepository.save(wdi);
+
     }
 
-    public WorkDayInfo submitWorkDayInfo(SubmitHours submitHours){
-        Employee employee = employeeRepository.findOne(submitHours.getEmployeeId());
-        WorkDayInfo wdi = new WorkDayInfo(
-                                            employee,
-                                            submitHours.getDate(),
-                                            submitHours.getWorkplace(),
-                                            submitHours.getActivity(),
-                                            submitHours.getHours()
-                                          );
-        return workDayInfoRepository.save(wdi);
-    }
 }

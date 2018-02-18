@@ -7,6 +7,8 @@ import com.timetable.final_project.domain.Employee;
 import com.timetable.final_project.exceptions.NoSuchAccountException;
 import com.timetable.final_project.helper_classes.LoginInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.core.Response;
@@ -21,14 +23,16 @@ class LoginEndPoint {
     public LoginInfo performLogin(@RequestBody Account account){
         LoginInfo loginInfo = new LoginInfo();
         try {
-            loginInfo = accountService.retrieveAccount(account.getUsername(),account.getPassword());
+            loginInfo = accountService.loginAccount(account.getUsername(),account.getPassword());
             loginInfo.setStatuCode(0);
             loginInfo.setMessage("Success!!");
             return loginInfo;
+            //return ResponseEntity.status(HttpStatus.OK).body(loginInfo);
         } catch (NoSuchAccountException e) {
             loginInfo.setStatuCode(1);
             loginInfo.setMessage("Invalid username/password");
             return loginInfo;
+            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(loginInfo);
         }
     }
 }
