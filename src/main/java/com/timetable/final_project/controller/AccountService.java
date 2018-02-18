@@ -1,8 +1,9 @@
 package com.timetable.final_project.controller;
 
+import com.timetable.final_project.exceptions.EmailExistsException;
 import com.timetable.final_project.exceptions.NoSuchAccountException;
 import com.timetable.final_project.exceptions.PasswordsNotMatchException;
-import com.timetable.final_project.exceptions.UsernameNotExistsException;
+import com.timetable.final_project.exceptions.UsernameExistsException;
 import com.timetable.final_project.domain.Account;
 import com.timetable.final_project.domain.Employee;
 import com.timetable.final_project.helper_classes.LoginInfo;
@@ -21,20 +22,34 @@ public class AccountService {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    public Account registerAccount(UserRegistration userRegistration, Employee employee){
-        Account account = new Account(userRegistration.getUsername(), userRegistration.getPassword(), employee);
-        return accountRepository.save(account);
-    }
+    public UserRegistration registerAccount(UserRegistration userRegistration) throws EmailExistsException, UsernameExistsException{
 
-    public Account retrieveAccountByUsername(String username) throws UsernameNotExistsException{
-        Account account = accountRepository.findOneByUsername(username);
-        if(account == null){
-            throw new UsernameNotExistsException();
+        Employee employee = employeeRepository.findOneByEmailAddress(userRegistration.getEmailAddress());
+        if(employee != null){
+            throw new EmailExistsException();
+        }else{
+            Account account = accountRepository.findOneByUsername(userRegistration.getUsername());
+            if(account != null){
+                throw new UsernameExistsException();
+            }else{
+                employee = new Employee(
+                        userRegistration.getFirstName(),
+                        userRegistration.getLastName(),
+                        userRegistration.getEmailAddress(),
+                        userRegistration.getRole(),
+                        userRegistration.getHourlyWage(),
+                        userRegistration.getDaysOff()
+                );
+                account = new  Account(userRegistration.getUsername(), userRegistration.getPassword(), employeeRepository.save(employee));
+                accountRepository.save(account);
+                userRegistration.setPassword("****");
+                return userRegistration;
+            }
         }
-        return account;
     }
 
-    public LoginInfo retrieveAccount(String username, String password) throws NoSuchAccountException {
+
+    public LoginInfo loginAccount(String username, String password) throws NoSuchAccountException {
 
         Account account = accountRepository.findByUsernameAndPassword(username, password);
 
