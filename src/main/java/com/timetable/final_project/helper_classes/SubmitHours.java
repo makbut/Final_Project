@@ -1,13 +1,16 @@
 package com.timetable.final_project.helper_classes;
 
+import com.timetable.final_project.enums.Activity;
+import com.timetable.final_project.enums.Workplace;
+
 public class SubmitHours {
     private int statusCode;
     private String message;
     private Long employeeId;
     private int hours;
     private String date;
-    private String activity;
-    private String workplace;
+    private Activity activity;
+    private Workplace workplace;
 
     public String getMessage() {
         return message;
@@ -49,19 +52,19 @@ public class SubmitHours {
         this.date = date;
     }
 
-    public String getActivity() {
+    public Activity getActivity() {
         return activity;
     }
 
-    public void setActivity(String activity) {
+    public void setActivity(Activity activity) {
         this.activity = activity;
     }
 
-    public String getWorkplace() {
+    public Workplace getWorkplace() {
         return workplace;
     }
 
-    public void setWorkplace(String workplace) {
+    public void setWorkplace(Workplace workplace) {
         this.workplace = workplace;
     }
 }

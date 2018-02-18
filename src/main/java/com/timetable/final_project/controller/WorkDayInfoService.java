@@ -2,6 +2,7 @@ package com.timetable.final_project.controller;
 
 import com.timetable.final_project.domain.Employee;
 import com.timetable.final_project.domain.WorkDayInfo;
+import com.timetable.final_project.enums.Activity;
 import com.timetable.final_project.exceptions.NotEnoughDaysOffException;
 import com.timetable.final_project.exceptions.NotValidDateException;
 import com.timetable.final_project.helper_classes.SubmitHours;
@@ -32,7 +33,7 @@ public class WorkDayInfoService {
     }
 
     public boolean canTakeDayOff(SubmitHours submitHours) throws NotEnoughDaysOffException{
-        if (submitHours.getActivity().equals("dayOff")) {
+        if (submitHours.getActivity()== Activity.DAYOFF) {
             Employee employee = employeeRepository.findOne(submitHours.getEmployeeId());
             if (employee.getDaysOff() == 0) {
                 throw new NotEnoughDaysOffException();

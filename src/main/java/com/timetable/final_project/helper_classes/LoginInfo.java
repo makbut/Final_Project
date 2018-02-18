@@ -1,17 +1,18 @@
 package com.timetable.final_project.helper_classes;
 
 import com.timetable.final_project.domain.Employee;
+import com.timetable.final_project.enums.Role;
 
 public class LoginInfo {
-    private int statuCode = 1;
-    private String message = "Wrong username/password!!!" ;
+    private int statuCode;
+    private String message;
     private Long id;
     private String firsName;
     private String lastName;
     private String emailAddress;
     private int daysOff;
     private int wage;
-    private String role;
+    private Role role;
 
     public void copyLoginInfo(Employee employee){
         setId(employee.getId());
@@ -87,11 +88,11 @@ public class LoginInfo {
         this.wage = wage;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 }

@@ -1,5 +1,6 @@
 package com.timetable.final_project.domain;
 
+import com.timetable.final_project.enums.Role;
 import com.timetable.final_project.helper_classes.UserRegistration;
 
 import javax.persistence.*;
@@ -13,18 +14,18 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String emailAddress;
-    private String role;
+    private Role role;
     private int daysOff;
     private int hourlyWage;
 
     @OneToMany(mappedBy="employee")
     private List<WorkDayInfo> workDays;
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -88,7 +89,7 @@ public class Employee {
 
     }
 
-    public Employee(String firstName, String lastName, String emailAddress, String role, int hourlyWage, int daysOff){
+    public Employee(String firstName, String lastName, String emailAddress, Role role, int hourlyWage, int daysOff){
         setFirstName(firstName);
         setLastName(lastName);
         setEmailAddress(emailAddress);
