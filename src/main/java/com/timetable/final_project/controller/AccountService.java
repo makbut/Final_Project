@@ -1,6 +1,7 @@
 package com.timetable.final_project.controller;
 
 import com.timetable.final_project.exceptions.NoSuchAccountException;
+import com.timetable.final_project.exceptions.PasswordsNotMatchException;
 import com.timetable.final_project.exceptions.UsernameNotExistsException;
 import com.timetable.final_project.domain.Account;
 import com.timetable.final_project.domain.Employee;
@@ -46,4 +47,15 @@ public class AccountService {
         loginInfo.copyLoginInfo(employee);
         return loginInfo;
     }
+
+    public boolean changeUserPassword(String username, String newPassword, String confirmNewPassword) throws PasswordsNotMatchException{
+        if(!newPassword.equals(confirmNewPassword)){
+            throw new PasswordsNotMatchException();
+        }
+        Account account = accountRepository.findOneByUsername(username);
+        account.setPassword(newPassword);
+        return true;
+    }
+
+
 }

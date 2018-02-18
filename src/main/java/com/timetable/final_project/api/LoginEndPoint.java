@@ -16,9 +16,6 @@ class LoginEndPoint {
     @Autowired
     AccountService accountService;
 
-    @Autowired
-    EmployeeService employeeService;
-
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public LoginInfo performLogin(@RequestBody Account account){
@@ -30,7 +27,7 @@ class LoginEndPoint {
             return loginInfo;
         } catch (NoSuchAccountException e) {
             loginInfo.setStatuCode(1);
-            loginInfo.setMessage("No such account");
+            loginInfo.setMessage("Invalid username/password");
             return loginInfo;
         }
     }
