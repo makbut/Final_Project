@@ -1,9 +1,9 @@
 package com.timetable.final_project.domain;
 
-import com.timetable.final_project.helper_classes.SubmitHours;
+import com.timetable.final_project.enums.Activity;
+import com.timetable.final_project.enums.Workplace;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 public class WorkDayInfo {
@@ -12,8 +12,8 @@ public class WorkDayInfo {
     private long id;
     private int hours;
     private String date;
-    private String activity;
-    private String workplace;
+    private Activity activity;
+    private Workplace workplace;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="RELATED_EMPLOYEE")
@@ -51,19 +51,19 @@ public class WorkDayInfo {
         this.date = date;
     }
 
-    public String getActivity() {
+    public Activity getActivity() {
         return activity;
     }
 
-    public void setActivity(String activity) {
+    public void setActivity(Activity activity) {
         this.activity = activity;
     }
 
-    public String getWorkplace() {
+    public Workplace getWorkplace() {
         return workplace;
     }
 
-    public void setWorkplace(String workplace) {
+    public void setWorkplace(Workplace workplace) {
         this.workplace = workplace;
     }
 
@@ -71,7 +71,7 @@ public class WorkDayInfo {
 
     }
 
-    public WorkDayInfo(Employee employee, String date, String workplace, String activity, int hours){
+    public WorkDayInfo(Employee employee, String date, Workplace workplace, Activity activity, int hours){
         setEmployee(employee);
         setHours(hours);
         setDate(date);

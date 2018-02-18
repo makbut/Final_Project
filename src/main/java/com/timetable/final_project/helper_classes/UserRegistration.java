@@ -1,12 +1,14 @@
 package com.timetable.final_project.helper_classes;
 
+import com.timetable.final_project.enums.Role;
+
 public class UserRegistration {
     private int statusCode;
     private String message;
     private String firstName;
     private String lastName;
     private String emailAddress;
-    private String role;
+    private Role role;
     private int daysOff;
     private int hourlyWage;
     private String username;
@@ -52,11 +54,11 @@ public class UserRegistration {
         this.emailAddress = emailAddress;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
