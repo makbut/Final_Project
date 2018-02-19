@@ -19,6 +19,16 @@ public class WorkDayInfo {
     @JoinColumn(name="RELATED_EMPLOYEE")
     private Employee employee;
 
+    public WorkDayInfo(){}
+
+    public WorkDayInfo(Employee employee, String date, Workplace workplace, Activity activity, int hours){
+        setEmployee(employee);
+        setHours(hours);
+        setDate(date);
+        setActivity(activity);
+        setWorkplace(workplace);
+    }
+
     public Employee getEmployee() {
         return employee;
     }
@@ -65,18 +75,6 @@ public class WorkDayInfo {
 
     public void setWorkplace(Workplace workplace) {
         this.workplace = workplace;
-    }
-
-    public WorkDayInfo(){
-
-    }
-
-    public WorkDayInfo(Employee employee, String date, Workplace workplace, Activity activity, int hours){
-        setEmployee(employee);
-        setHours(hours);
-        setDate(date);
-        setActivity(activity);
-        setWorkplace(workplace);
     }
 }
 

@@ -1,5 +1,6 @@
 package com.timetable.final_project.helper_classes;
 
+import com.timetable.final_project.domain.WorkDayInfo;
 import com.timetable.final_project.enums.Activity;
 import com.timetable.final_project.enums.Workplace;
 
@@ -11,6 +12,23 @@ public class SubmitHours {
     private String date;
     private Activity activity;
     private Workplace workplace;
+
+    // Success
+    public SubmitHours(WorkDayInfo workDayInfo, int code, String message) {
+        setMessage(message);
+        setStatusCode(code);
+        setEmployeeId(workDayInfo.getEmployee().getId());
+        setHours(workDayInfo.getHours());
+        setDate(workDayInfo.getDate());
+        setActivity(workDayInfo.getActivity());
+        setWorkplace(workDayInfo.getWorkplace());
+    }
+
+    // Invalid
+    public SubmitHours(int code, String message) {
+        setStatusCode(code);
+        setMessage(message);
+    }
 
     public String getMessage() {
         return message;

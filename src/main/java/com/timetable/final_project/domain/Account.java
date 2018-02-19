@@ -15,9 +15,7 @@ public class Account {
     @JoinColumn(name="EMPLOYEE_ID")
     private Employee employee;
 
-    public Account(){
-
-    }
+    public Account(){}
 
     public Account(String username, String password, Employee employee){
         setUsername(username);
