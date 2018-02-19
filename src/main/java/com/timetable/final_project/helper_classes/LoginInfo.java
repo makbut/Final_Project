@@ -5,7 +5,7 @@ import com.timetable.final_project.enums.Role;
 import com.timetable.final_project.enums.Workplace;
 
 public class LoginInfo {
-    private int statuCode;
+    private int statusCode;
     private String message;
     private Long id;
     private String firsName;
@@ -43,12 +43,12 @@ public class LoginInfo {
         this.message = message;
     }
 
-    public int getStatuCode() {
-        return statuCode;
+    public int getStatusCode() {
+        return statusCode;
     }
 
-    public void setStatuCode(int statuCode) {
-        this.statuCode = statuCode;
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
     }
 
     public Long getId() {

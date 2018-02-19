@@ -23,15 +23,15 @@ public class ChangePasswordEndPoint {
         LoginInfo loginInfo = new LoginInfo();
         try {
             loginInfo = accountService.changeUserPassword(changePassword);
-            loginInfo.setStatuCode(0);
+            loginInfo.setStatusCode(0);
             loginInfo.setMessage("Success");
             return ResponseEntity.status(HttpStatus.OK).body(loginInfo);
         } catch (InvalidComboException e) {
-            loginInfo.setStatuCode(1);
+            loginInfo.setStatusCode(1);
             loginInfo.setMessage("Invalid combination username/password");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(loginInfo);
         } catch (PasswordsNotMatchException e) {
-            loginInfo.setStatuCode(2);
+            loginInfo.setStatusCode(2);
             loginInfo.setMessage("Invalid combination new passwords");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(loginInfo);
         }

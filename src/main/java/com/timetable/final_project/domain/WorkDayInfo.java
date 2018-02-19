@@ -4,6 +4,7 @@ import com.timetable.final_project.enums.Activity;
 import com.timetable.final_project.enums.Workplace;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 public class WorkDayInfo {
@@ -11,9 +12,10 @@ public class WorkDayInfo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private int hours;
-    private String date;
+    private LocalDate date;
     private Activity activity;
     private Workplace workplace;
+    private boolean finalized;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="RELATED_EMPLOYEE")
@@ -21,12 +23,21 @@ public class WorkDayInfo {
 
     public WorkDayInfo(){}
 
-    public WorkDayInfo(Employee employee, String date, Workplace workplace, Activity activity, int hours){
+    public void copyInfo(Employee employee, LocalDate date, Workplace workplace, Activity activity, int hours, boolean finalized){
         setEmployee(employee);
         setHours(hours);
         setDate(date);
         setActivity(activity);
         setWorkplace(workplace);
+        setFinalized(finalized);
+    }
+
+    public boolean isFinalized() {
+        return finalized;
+    }
+
+    public void setFinalized(boolean finalized) {
+        this.finalized = finalized;
     }
 
     public Employee getEmployee() {
@@ -53,11 +64,11 @@ public class WorkDayInfo {
         this.hours = hours;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
