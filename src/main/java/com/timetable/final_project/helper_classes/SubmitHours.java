@@ -13,6 +13,8 @@ public class SubmitHours {
     private Activity activity;
     private Workplace workplace;
 
+    public SubmitHours(){}
+
     // Success
     public SubmitHours(WorkDayInfo workDayInfo, int code, String message) {
         setMessage(message);
