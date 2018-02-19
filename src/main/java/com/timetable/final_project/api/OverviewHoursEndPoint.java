@@ -4,6 +4,7 @@ package com.timetable.final_project.api;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.timetable.final_project.controller.WorkDayInfoService;
 import com.timetable.final_project.domain.WorkDayInfo;
+import com.timetable.final_project.exceptions.InvalidDatesException;
 import com.timetable.final_project.exceptions.NoSuchEmployeeException;
 import com.timetable.final_project.helper_classes.DateString;
 import com.timetable.final_project.helper_classes.SubmitHours;
@@ -32,7 +33,7 @@ public class OverviewHoursEndPoint {
         List<WorkDayInfo> workDayInfoList = null;
         try {
             List<SubmitHours> submitHoursList = new ArrayList<>();
-            workDayInfoList = workDayInfoService.findByEmployeeId(id);
+            workDayInfoList = workDayInfoService.getWorkDayInfoGivenID(id);
             workDayInfoList.forEach(workDayInfo -> {
                 SubmitHours submitHours = new SubmitHours(workDayInfo, 0, "Success");
                 submitHoursList.add(submitHours);
@@ -54,6 +55,16 @@ public class OverviewHoursEndPoint {
         } catch (NoSuchEmployeeException e) {
             SubmitHours submitHours = new SubmitHours(1, "Invalid employee id");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(submitHours);
+        } catch (InvalidDatesException e) {
+            SubmitHours submitHours = new SubmitHours(2, "Invalid input dates");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(submitHours);
         }
     }
 }
+
+/*
+* TODO
+* Check if not long id is not provided
+* Send enums with @GET
+* Create overview by workplace (and activity)
+* */
