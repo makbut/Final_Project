@@ -25,8 +25,13 @@ public class WorkDayInfoService {
     private EmployeeRepository employeeRepository;
 
 
-    public WorkDayInfo submitWorkDayInfo(SubmitHours submitHours) throws NotEnoughDaysOffException, NotValidDateException {
+    public WorkDayInfo submitWorkDayInfo(SubmitHours submitHours) throws NotEnoughDaysOffException, NotValidDateException, NoSuchEmployeeException {
         Employee employee = employeeRepository.findOne(submitHours.getEmployeeId());
+
+        if(employee == null){
+            throw new NoSuchEmployeeException();
+        }
+
         WorkDayInfo workDayInfo = workDayInfoRepository.findOneByDateAndEmployee(submitHours.getDate(), employee);
 
         if (workDayInfo != null) {

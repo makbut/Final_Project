@@ -6,11 +6,13 @@ import com.timetable.final_project.exceptions.PasswordsNotMatchException;
 import com.timetable.final_project.exceptions.UsernameExistsException;
 import com.timetable.final_project.domain.Account;
 import com.timetable.final_project.domain.Employee;
+import com.timetable.final_project.helper_classes.ChangePassword;
 import com.timetable.final_project.helper_classes.LoginInfo;
 import com.timetable.final_project.helper_classes.UserRegistration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.rmi.runtime.Log;
 
 @Service
 @Transactional
@@ -63,13 +65,18 @@ public class AccountService {
         return loginInfo;
     }
 
-    public boolean changeUserPassword(String username, String newPassword, String confirmNewPassword) throws PasswordsNotMatchException{
-        if(!newPassword.equals(confirmNewPassword)){
+    public LoginInfo changeUserPassword(ChangePassword changePassword) throws PasswordsNotMatchException, NoSuchAccountException {
+
+        LoginInfo loginInfo;
+
+        loginInfo = loginAccount(changePassword.getUsername(),changePassword.getCurrentPassword());
+
+        if(!changePassword.getNewPassword().equals(changePassword.getConfirmNewPassword())){
             throw new PasswordsNotMatchException();
         }
-        Account account = accountRepository.findOneByUsername(username);
-        account.setPassword(newPassword);
-        return true;
+        Account account = accountRepository.findOneByUsername(changePassword.getUsername());
+        account.setPassword(changePassword.getNewPassword());
+        return loginInfo;
     }
 
 

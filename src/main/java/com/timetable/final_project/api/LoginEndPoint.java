@@ -20,19 +20,17 @@ class LoginEndPoint {
 
     @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public LoginInfo performLogin(@RequestBody Account account){
+    public ResponseEntity performLogin(@RequestBody Account account){
         LoginInfo loginInfo = new LoginInfo();
         try {
             loginInfo = accountService.loginAccount(account.getUsername(),account.getPassword());
             loginInfo.setStatuCode(0);
-            loginInfo.setMessage("Success!!");
-            return loginInfo;
-            //return ResponseEntity.status(HttpStatus.OK).body(loginInfo);
+            loginInfo.setMessage("Success");
+            return ResponseEntity.status(HttpStatus.OK).body(loginInfo);
         } catch (NoSuchAccountException e) {
             loginInfo.setStatuCode(1);
             loginInfo.setMessage("Invalid username/password");
-            return loginInfo;
-            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(loginInfo);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(loginInfo);
         }
     }
 }
