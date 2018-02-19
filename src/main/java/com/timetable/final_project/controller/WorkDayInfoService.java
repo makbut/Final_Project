@@ -32,6 +32,7 @@ public class WorkDayInfoService {
             throw new NoSuchEmployeeException();
         }
 
+        submitHours.setLastWorkplace(employee.getLastWorkplace());
         WorkDayInfo workDayInfo = workDayInfoRepository.findOneByDateAndEmployee(submitHours.getDate(), employee);
 
         if (workDayInfo != null) {
@@ -53,6 +54,8 @@ public class WorkDayInfoService {
                 submitHours.getHours()
         );
 
+        employee.setLastWorkplace(submitHours.getWorkplace());
+        submitHours.setLastWorkplace(submitHours.getWorkplace());
         return workDayInfoRepository.save(wdi);
 
     }

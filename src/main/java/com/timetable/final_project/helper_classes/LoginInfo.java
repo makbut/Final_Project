@@ -2,6 +2,7 @@ package com.timetable.final_project.helper_classes;
 
 import com.timetable.final_project.domain.Employee;
 import com.timetable.final_project.enums.Role;
+import com.timetable.final_project.enums.Workplace;
 
 public class LoginInfo {
     private int statuCode;
@@ -13,6 +14,7 @@ public class LoginInfo {
     private int daysOff;
     private int wage;
     private Role role;
+    private Workplace lastWorkplace;
 
     public void copyLoginInfo(Employee employee){
         setId(employee.getId());
@@ -22,6 +24,15 @@ public class LoginInfo {
         setDaysOff(employee.getDaysOff());
         setWage(employee.getHourlyWage());
         setRole(employee.getRole());
+        setLastWorkplace(employee.getLastWorkplace());
+    }
+
+    public Workplace getLastWorkplace() {
+        return lastWorkplace;
+    }
+
+    public void setLastWorkplace(Workplace lastWorkplace) {
+        this.lastWorkplace = lastWorkplace;
     }
 
     public String getMessage() {

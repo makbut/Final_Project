@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +25,7 @@ public class OverviewHoursEndPoint {
     @CrossOrigin
     @RequestMapping(value = "/employee/{id}/overviewHours", method = RequestMethod.GET)
     public ResponseEntity overviewHours(@PathVariable("id") long id) {
+
 
         List<WorkDayInfo> workDayInfoList = null;
         try {
@@ -38,5 +41,4 @@ public class OverviewHoursEndPoint {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(submitHours);
         }
     }
-
 }
