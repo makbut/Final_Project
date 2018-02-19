@@ -5,7 +5,7 @@ import com.timetable.final_project.domain.WorkDayInfo;
 import com.timetable.final_project.enums.Activity;
 import com.timetable.final_project.exceptions.NoSuchEmployeeException;
 import com.timetable.final_project.exceptions.NotEnoughDaysOffException;
-import com.timetable.final_project.exceptions.NotValidDateException;
+import com.timetable.final_project.exceptions.FinalizedDateException;
 import com.timetable.final_project.helper_classes.DateString;
 import com.timetable.final_project.helper_classes.SubmitHours;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class WorkDayInfoService {
     private EmployeeRepository employeeRepository;
 
 
-    public WorkDayInfo submitWorkDayInfo(SubmitHours submitHours) throws NotEnoughDaysOffException, NotValidDateException, NoSuchEmployeeException {
+    public WorkDayInfo submitWorkDayInfo(SubmitHours submitHours) throws NotEnoughDaysOffException, FinalizedDateException, NoSuchEmployeeException {
 
         Employee employee = employeeRepository.findOne(submitHours.getEmployeeId());
         if (employee == null) {
@@ -43,7 +42,7 @@ public class WorkDayInfoService {
 
         if (workDayInfo != null) {
             if(workDayInfo.isFinalized()){
-                throw new NotValidDateException();
+                throw new FinalizedDateException();
             }
         }else{
             workDayInfo = new WorkDayInfo();
