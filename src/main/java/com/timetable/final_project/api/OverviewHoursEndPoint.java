@@ -46,7 +46,7 @@ public class OverviewHoursEndPoint {
 
     @CrossOrigin
     @RequestMapping(value = "/employee/{id}/overviewHours/{startDate}/{endDate}", method = RequestMethod.GET)
-    public ResponseEntity overviewHours(@PathVariable("id") long id, @PathVariable("startDate") String startDate, @PathVariable("endDate") String endDate) {
+    public ResponseEntity overviewHoursByDate(@PathVariable("id") long id, @PathVariable("startDate") String startDate, @PathVariable("endDate") String endDate) {
         Iterable<SubmitHours> submitHoursList = null;
         try {
             submitHoursList = workDayInfoService.getWorkDayInfoGivenDatesAndID(id,startDate,endDate);
