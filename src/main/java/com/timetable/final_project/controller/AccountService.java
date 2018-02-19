@@ -1,11 +1,12 @@
 package com.timetable.final_project.controller;
 
 import com.timetable.final_project.exceptions.EmailExistsException;
-import com.timetable.final_project.exceptions.NoSuchAccountException;
+import com.timetable.final_project.exceptions.InvalidComboException;
 import com.timetable.final_project.exceptions.PasswordsNotMatchException;
 import com.timetable.final_project.exceptions.UsernameExistsException;
 import com.timetable.final_project.domain.Account;
 import com.timetable.final_project.domain.Employee;
+import com.timetable.final_project.helper_classes.ChangePassword;
 import com.timetable.final_project.helper_classes.LoginInfo;
 import com.timetable.final_project.helper_classes.UserRegistration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,27 +50,32 @@ public class AccountService {
     }
 
 
-    public LoginInfo loginAccount(String username, String password) throws NoSuchAccountException {
+    public LoginInfo loginAccount(String username, String password) throws InvalidComboException {
 
         Account account = accountRepository.findByUsernameAndPassword(username, password);
 
         LoginInfo loginInfo = new LoginInfo();
         Employee employee;
         if(account == null) {
-            throw new NoSuchAccountException();
+            throw new InvalidComboException();
         }
         employee = employeeRepository.findOne(account.getEmployee().getId());
         loginInfo.copyLoginInfo(employee);
         return loginInfo;
     }
 
-    public boolean changeUserPassword(String username, String newPassword, String confirmNewPassword) throws PasswordsNotMatchException{
-        if(!newPassword.equals(confirmNewPassword)){
+    public LoginInfo changeUserPassword(ChangePassword changePassword) throws PasswordsNotMatchException, InvalidComboException {
+
+        LoginInfo loginInfo;
+
+        loginInfo = loginAccount(changePassword.getUsername(),changePassword.getCurrentPassword());
+
+        if(!changePassword.getNewPassword().equals(changePassword.getConfirmNewPassword())){
             throw new PasswordsNotMatchException();
         }
-        Account account = accountRepository.findOneByUsername(username);
-        account.setPassword(newPassword);
-        return true;
+        Account account = accountRepository.findOneByUsername(changePassword.getUsername());
+        account.setPassword(changePassword.getNewPassword());
+        return loginInfo;
     }
 
 

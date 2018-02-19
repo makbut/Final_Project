@@ -25,8 +25,14 @@ public class WorkDayInfoService {
     private EmployeeRepository employeeRepository;
 
 
-    public WorkDayInfo submitWorkDayInfo(SubmitHours submitHours) throws NotEnoughDaysOffException, NotValidDateException {
+    public WorkDayInfo submitWorkDayInfo(SubmitHours submitHours) throws NotEnoughDaysOffException, NotValidDateException, NoSuchEmployeeException {
         Employee employee = employeeRepository.findOne(submitHours.getEmployeeId());
+
+        if(employee == null){
+            throw new NoSuchEmployeeException();
+        }
+
+        submitHours.setLastWorkplace(employee.getLastWorkplace());
         WorkDayInfo workDayInfo = workDayInfoRepository.findOneByDateAndEmployee(submitHours.getDate(), employee);
 
         if (workDayInfo != null) {
@@ -48,6 +54,8 @@ public class WorkDayInfoService {
                 submitHours.getHours()
         );
 
+        employee.setLastWorkplace(submitHours.getWorkplace());
+        submitHours.setLastWorkplace(submitHours.getWorkplace());
         return workDayInfoRepository.save(wdi);
 
     }

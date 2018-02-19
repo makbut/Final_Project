@@ -14,30 +14,24 @@ import org.springframework.web.bind.annotation.*;
 public class RegistrationEndPoint {
 
     @Autowired
-    EmployeeService employeeService;
-
-    @Autowired
     AccountService accountService;
 
     @CrossOrigin
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public UserRegistration registerUser(@RequestBody UserRegistration userRegistration) {
+    public ResponseEntity registerUser(@RequestBody UserRegistration userRegistration) {
         try {
             accountService.registerAccount(userRegistration);
             userRegistration.setStatusCode(0);
-            userRegistration.setMessage("success");
-            return userRegistration;
-            //return ResponseEntity.status(HttpStatus.OK).body(userRegistration);
+            userRegistration.setMessage("Success");
+            return ResponseEntity.status(HttpStatus.OK).body(userRegistration);
         } catch (EmailExistsException e) {
-            userRegistration.setStatusCode(2);
-            userRegistration.setMessage("email in use");
-            return userRegistration;
-            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(userRegistration);
-        } catch (UsernameExistsException e) {
             userRegistration.setStatusCode(1);
-            userRegistration.setMessage("username in use");
-            return userRegistration;
-            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(userRegistration);
+            userRegistration.setMessage("Email in use");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(userRegistration);
+        } catch (UsernameExistsException e) {
+            userRegistration.setStatusCode(2);
+            userRegistration.setMessage("Username in use");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(userRegistration);
         }
 
     }

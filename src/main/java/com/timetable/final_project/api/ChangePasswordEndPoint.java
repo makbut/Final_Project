@@ -2,7 +2,7 @@ package com.timetable.final_project.api;
 
 
 import com.timetable.final_project.controller.AccountService;
-import com.timetable.final_project.exceptions.NoSuchAccountException;
+import com.timetable.final_project.exceptions.InvalidComboException;
 import com.timetable.final_project.exceptions.PasswordsNotMatchException;
 import com.timetable.final_project.helper_classes.ChangePassword;
 import com.timetable.final_project.helper_classes.LoginInfo;
@@ -19,25 +19,21 @@ public class ChangePasswordEndPoint {
 
     @CrossOrigin
     @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-    public LoginInfo changePassword(@RequestBody ChangePassword changePassword){
+    public ResponseEntity changePassword(@RequestBody ChangePassword changePassword){
         LoginInfo loginInfo = new LoginInfo();
         try {
-            loginInfo = accountService.loginAccount(changePassword.getUsername(),changePassword.getCurrentPassword());
-            accountService.changeUserPassword(changePassword.getUsername(),changePassword.getNewPassword(),changePassword.getConfirmNewPassword());
+            loginInfo = accountService.changeUserPassword(changePassword);
             loginInfo.setStatuCode(0);
-            loginInfo.setMessage("Success!!");
-            return loginInfo;
-            //return ResponseEntity.status(HttpStatus.OK).body(loginInfo);
-        } catch (NoSuchAccountException e) {
+            loginInfo.setMessage("Success");
+            return ResponseEntity.status(HttpStatus.OK).body(loginInfo);
+        } catch (InvalidComboException e) {
             loginInfo.setStatuCode(1);
-            loginInfo.setMessage("Invalid combination username/password!!");
-            return loginInfo;
-            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(loginInfo);
+            loginInfo.setMessage("Invalid combination username/password");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(loginInfo);
         } catch (PasswordsNotMatchException e) {
             loginInfo.setStatuCode(2);
             loginInfo.setMessage("Invalid combination new passwords");
-            return loginInfo;
-            //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(loginInfo);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(loginInfo);
         }
     }
 }

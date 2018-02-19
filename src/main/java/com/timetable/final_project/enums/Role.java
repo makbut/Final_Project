@@ -4,5 +4,6 @@ public enum Role {
     TRAINEE,
     MANAGER,
     CEO,
-    ING_MANAGER
+    ING_MANAGER,
+    ADMIN
 }

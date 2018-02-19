@@ -12,7 +12,9 @@ public class SubmitHours {
     private String date;
     private Activity activity;
     private Workplace workplace;
+    private Workplace lastWorkplace;
 
+    //default
     public SubmitHours(){}
 
     // Success
@@ -30,6 +32,14 @@ public class SubmitHours {
     public SubmitHours(int code, String message) {
         setStatusCode(code);
         setMessage(message);
+    }
+
+    public Workplace getLastWorkplace() {
+        return lastWorkplace;
+    }
+
+    public void setLastWorkplace(Workplace lastWorkplace) {
+        this.lastWorkplace = lastWorkplace;
     }
 
     public String getMessage() {

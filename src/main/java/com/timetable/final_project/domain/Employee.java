@@ -1,6 +1,7 @@
 package com.timetable.final_project.domain;
 
 import com.timetable.final_project.enums.Role;
+import com.timetable.final_project.enums.Workplace;
 import com.timetable.final_project.helper_classes.UserRegistration;
 
 import javax.persistence.*;
@@ -17,9 +18,18 @@ public class Employee {
     private Role role;
     private int daysOff;
     private int hourlyWage;
+    private Workplace lastWorkplace;
 
     @OneToMany(mappedBy="employee")
     private List<WorkDayInfo> workDays;
+
+    public Workplace getLastWorkplace() {
+        return lastWorkplace;
+    }
+
+    public void setLastWorkplace(Workplace lastWorkplace) {
+        this.lastWorkplace = lastWorkplace;
+    }
 
     public Role getRole() {
         return role;
