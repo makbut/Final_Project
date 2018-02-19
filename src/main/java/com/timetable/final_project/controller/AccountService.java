@@ -1,7 +1,7 @@
 package com.timetable.final_project.controller;
 
 import com.timetable.final_project.exceptions.EmailExistsException;
-import com.timetable.final_project.exceptions.NoSuchAccountException;
+import com.timetable.final_project.exceptions.InvalidComboException;
 import com.timetable.final_project.exceptions.PasswordsNotMatchException;
 import com.timetable.final_project.exceptions.UsernameExistsException;
 import com.timetable.final_project.domain.Account;
@@ -12,7 +12,6 @@ import com.timetable.final_project.helper_classes.UserRegistration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.rmi.runtime.Log;
 
 @Service
 @Transactional
@@ -51,21 +50,21 @@ public class AccountService {
     }
 
 
-    public LoginInfo loginAccount(String username, String password) throws NoSuchAccountException {
+    public LoginInfo loginAccount(String username, String password) throws InvalidComboException {
 
         Account account = accountRepository.findByUsernameAndPassword(username, password);
 
         LoginInfo loginInfo = new LoginInfo();
         Employee employee;
         if(account == null) {
-            throw new NoSuchAccountException();
+            throw new InvalidComboException();
         }
         employee = employeeRepository.findOne(account.getEmployee().getId());
         loginInfo.copyLoginInfo(employee);
         return loginInfo;
     }
 
-    public LoginInfo changeUserPassword(ChangePassword changePassword) throws PasswordsNotMatchException, NoSuchAccountException {
+    public LoginInfo changeUserPassword(ChangePassword changePassword) throws PasswordsNotMatchException, InvalidComboException {
 
         LoginInfo loginInfo;
 
