@@ -3,6 +3,7 @@ package com.timetable.final_project.controller;
 import com.timetable.final_project.domain.Employee;
 import com.timetable.final_project.domain.WorkDayInfo;
 import com.timetable.final_project.enums.Activity;
+import com.timetable.final_project.exceptions.InvalidDatesException;
 import com.timetable.final_project.exceptions.NoSuchEmployeeException;
 import com.timetable.final_project.exceptions.NotEnoughDaysOffException;
 import com.timetable.final_project.exceptions.FinalizedDateException;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -54,7 +56,9 @@ public class WorkDayInfoService {
             if (employee.getDaysOff() == 0) {
                 throw new NotEnoughDaysOffException();
             }
-            employee.setDaysOff(employee.getDaysOff() - 1);
+            if(submitHours.isFinalized()) {
+                employee.setDaysOff(employee.getDaysOff() - 1);
+            }
         }
 
         workDayInfo.copyInfo(employee,
@@ -74,24 +78,29 @@ public class WorkDayInfoService {
 
     }
 
-    public List<WorkDayInfo> findByEmployeeId(long id) throws NoSuchEmployeeException {
+    public List<WorkDayInfo> getWorkDayInfoGivenID(long id) throws NoSuchEmployeeException {
         Employee employee = employeeRepository.findOne(id);
         if (employee == null) throw new NoSuchEmployeeException();
         return workDayInfoRepository.findByEmployee(employee);
     }
 
-    public Iterable<SubmitHours> getWorkDayInfoGivenDatesAndID(long id, String startDate, String endDate) throws NoSuchEmployeeException {
+    public Iterable<SubmitHours> getWorkDayInfoGivenDatesAndID(long id, String startDate, String endDate) throws NoSuchEmployeeException, InvalidDatesException {
 
         Employee employee = employeeRepository.findOne(id);
         if(employee == null){
             throw new NoSuchEmployeeException();
         }
 
+        LocalDate localStartDate = DateString.stringToLocalDate(startDate.replaceAll("_", "/"));
+        LocalDate localEndDate = DateString.stringToLocalDate(endDate.replaceAll("_", "/"));
+
+        if(localStartDate.isAfter(localEndDate)){
+            throw new InvalidDatesException();
+        }
+
         List<SubmitHours> submitHours = new ArrayList();
-        List<WorkDayInfo> workDayInfos =  workDayInfos = workDayInfoRepository.findByDateBetweenAndEmployee(
-                DateString.stringToLocalDate(startDate.replaceAll("_", "/")),
-                DateString.stringToLocalDate(endDate.replaceAll("_", "/")),
-                employee);
+        List<WorkDayInfo> workDayInfos = workDayInfoRepository.findByDateBetweenAndEmployee
+                                                                    (localStartDate,localEndDate, employee);
 
         for(WorkDayInfo wdi : workDayInfos){
             submitHours.add(new SubmitHours(wdi,0,"success"));
