@@ -4,6 +4,8 @@ import com.timetable.final_project.domain.WorkDayInfo;
 import com.timetable.final_project.enums.Activity;
 import com.timetable.final_project.enums.Workplace;
 
+import java.time.LocalDate;
+
 public class SubmitHours {
     private int statusCode;
     private String message;
@@ -13,6 +15,7 @@ public class SubmitHours {
     private Activity activity;
     private Workplace workplace;
     private Workplace lastWorkplace;
+    private boolean finalized;
 
     //default
     public SubmitHours(){}
@@ -23,15 +26,24 @@ public class SubmitHours {
         setStatusCode(code);
         setEmployeeId(workDayInfo.getEmployee().getId());
         setHours(workDayInfo.getHours());
-        setDate(workDayInfo.getDate());
+        setDate(workDayInfo.getDate().toString());
         setActivity(workDayInfo.getActivity());
         setWorkplace(workDayInfo.getWorkplace());
+        setFinalized(workDayInfo.isFinalized());
     }
 
     // Invalid
     public SubmitHours(int code, String message) {
         setStatusCode(code);
         setMessage(message);
+    }
+
+    public boolean isFinalized() {
+        return finalized;
+    }
+
+    public void setFinalized(boolean finalized) {
+        this.finalized = finalized;
     }
 
     public Workplace getLastWorkplace() {

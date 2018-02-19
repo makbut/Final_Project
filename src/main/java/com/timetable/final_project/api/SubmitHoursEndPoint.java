@@ -1,12 +1,9 @@
 package com.timetable.final_project.api;
 
-import com.timetable.final_project.controller.EmployeeService;
 import com.timetable.final_project.controller.WorkDayInfoService;
-import com.timetable.final_project.domain.Employee;
-import com.timetable.final_project.domain.WorkDayInfo;
 import com.timetable.final_project.exceptions.NoSuchEmployeeException;
 import com.timetable.final_project.exceptions.NotEnoughDaysOffException;
-import com.timetable.final_project.exceptions.NotValidDateException;
+import com.timetable.final_project.exceptions.FinalizedDateException;
 import com.timetable.final_project.helper_classes.SubmitHours;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,9 +29,9 @@ public class SubmitHoursEndPoint {
             submitHours.setMessage("Not enough days off");
             submitHours.setStatusCode(1);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(submitHours);
-        } catch (NotValidDateException e) {
+        } catch (FinalizedDateException e) {
             submitHours.setStatusCode(2);
-            submitHours.setMessage("Wrong date");
+            submitHours.setMessage("This date is finalized");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(submitHours);
         } catch (NoSuchEmployeeException e) {
             submitHours.setStatusCode(3);
