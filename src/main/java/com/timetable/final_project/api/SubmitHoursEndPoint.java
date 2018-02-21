@@ -1,6 +1,7 @@
 package com.timetable.final_project.api;
 
 import com.timetable.final_project.controller.WorkDayInfoService;
+import com.timetable.final_project.domain.WorkDayInfo;
 import com.timetable.final_project.exceptions.NoSuchEmployeeException;
 import com.timetable.final_project.exceptions.NotEnoughDaysOffException;
 import com.timetable.final_project.exceptions.FinalizedDateException;
@@ -20,11 +21,9 @@ public class SubmitHoursEndPoint {
     @RequestMapping(value = "/submitHours", method = RequestMethod.POST)
     public ResponseEntity submitWorkDayInfo(@RequestBody SubmitHours submitHours) {
 
+        WorkDayInfo workDayInfo;
         try {
-            workDayInfoService.submitWorkDayInfo(submitHours);
-            submitHours.setStatusCode(0);
-            submitHours.setMessage("Success");
-            return ResponseEntity.status(HttpStatus.OK).body(submitHours);
+            workDayInfo = workDayInfoService.submitWorkDayInfo(submitHours);
         } catch (NotEnoughDaysOffException e) {
             submitHours.setMessage("Not enough days off");
             submitHours.setStatusCode(1);
@@ -38,6 +37,7 @@ public class SubmitHoursEndPoint {
             submitHours.setMessage("No such employee");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(submitHours);
         }
-
+        SubmitHours submitHours1 = new SubmitHours(workDayInfo, 0 ,"success");
+        return ResponseEntity.status(HttpStatus.OK).body(submitHours1);
     }
 }

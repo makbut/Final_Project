@@ -17,18 +17,29 @@ public class WorkDayInfo {
     private Workplace workplace;
     private boolean finalized;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="RELATED_EMPLOYEE")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "RELATED_EMPLOYEE")
     private Employee employee;
 
-    public WorkDayInfo(){}
+    public WorkDayInfo() {
+    }
 
-    public void copyInfo(Employee employee, LocalDate date, Workplace workplace, Activity activity, int hours, boolean finalized){
-        setEmployee(employee);
-        setHours(hours);
-        setDate(date);
-        setActivity(activity);
-        setWorkplace(workplace);
+    public void copyInfo(Employee employee, LocalDate date, Workplace workplace, Activity activity, int hours, boolean finalized) {
+        if (employee != null) {
+            setEmployee(employee);
+        }
+        if (hours != 0) {
+            setHours(hours);
+        }
+        if (date != null) {
+            setDate(date);
+        }
+        if (activity != null) {
+            setActivity(activity);
+        }
+        if (workplace != null) {
+            setWorkplace(workplace);
+        }
         setFinalized(finalized);
     }
 

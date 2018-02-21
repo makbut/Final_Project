@@ -21,9 +21,6 @@ public class RegistrationEndPoint {
     public ResponseEntity registerUser(@RequestBody UserRegistration userRegistration) {
         try {
             accountService.registerAccount(userRegistration);
-            userRegistration.setStatusCode(0);
-            userRegistration.setMessage("Success");
-            return ResponseEntity.status(HttpStatus.OK).body(userRegistration);
         } catch (EmailExistsException e) {
             userRegistration.setStatusCode(1);
             userRegistration.setMessage("Email in use");
@@ -33,7 +30,9 @@ public class RegistrationEndPoint {
             userRegistration.setMessage("Username in use");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(userRegistration);
         }
-
+        userRegistration.setStatusCode(0);
+        userRegistration.setMessage("Success");
+        return ResponseEntity.status(HttpStatus.OK).body(userRegistration);
     }
 }
 
