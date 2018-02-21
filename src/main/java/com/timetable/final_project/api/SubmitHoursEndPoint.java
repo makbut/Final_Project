@@ -38,6 +38,7 @@ public class SubmitHoursEndPoint {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(submitHours);
         }
         SubmitHours submitHours1 = new SubmitHours(workDayInfo, 0 ,"success");
+        submitHours1.setLastWorkplace(workDayInfo.getWorkplace());
         return ResponseEntity.status(HttpStatus.OK).body(submitHours1);
     }
 }
