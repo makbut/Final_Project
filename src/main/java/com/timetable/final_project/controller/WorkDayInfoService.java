@@ -81,8 +81,15 @@ public class WorkDayInfoService {
     public List<WorkDayInfo> getWorkDayInfoGivenID(long id) throws NoSuchEmployeeException {
         Employee employee = employeeRepository.findOne(id);
         if (employee == null) throw new NoSuchEmployeeException();
-        return workDayInfoRepository.findByEmployee(employee);
+        return workDayInfoRepository.findByEmployeeOrderByDateAsc(employee);
     }
+
+    public List<WorkDayInfo> getWorkDayInfoGivenIDandFinal(long id, boolean finalized) throws NoSuchEmployeeException {
+        Employee employee = employeeRepository.findOne(id);
+        if (employee == null) throw new NoSuchEmployeeException();
+        return workDayInfoRepository.findByEmployeeAndFinalizedOrderByDateAsc(employee, finalized);
+    }
+
 
     public Iterable<SubmitHours> getWorkDayInfoGivenDatesAndID(long id, String startDate, String endDate) throws NoSuchEmployeeException, InvalidDatesException {
 
@@ -99,7 +106,7 @@ public class WorkDayInfoService {
         }
 
         List<SubmitHours> submitHours = new ArrayList();
-        List<WorkDayInfo> workDayInfos = workDayInfoRepository.findByDateBetweenAndEmployee
+        List<WorkDayInfo> workDayInfos = workDayInfoRepository.findByDateBetweenAndEmployeeOrderByDateAsc
                                                                     (localStartDate,localEndDate, employee);
 
         for(WorkDayInfo wdi : workDayInfos){

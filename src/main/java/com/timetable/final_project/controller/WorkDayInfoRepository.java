@@ -14,8 +14,10 @@ public interface WorkDayInfoRepository extends CrudRepository<WorkDayInfo,Long> 
 
     WorkDayInfo findOneByDateAndEmployee(LocalDate date, Employee employee);
 
-    List<WorkDayInfo> findByEmployee(Employee employee);
+    List<WorkDayInfo> findByEmployeeOrderByDateAsc(Employee employee);
 
-    List<WorkDayInfo> findByDateBetweenAndEmployee(LocalDate date1, LocalDate date2, Employee employee);
+    List<WorkDayInfo> findByEmployeeAndFinalizedOrderByDateAsc(Employee employee, boolean finalized);
+
+    List<WorkDayInfo> findByDateBetweenAndEmployeeOrderByDateAsc(LocalDate date1, LocalDate date2, Employee employee);
 
 }

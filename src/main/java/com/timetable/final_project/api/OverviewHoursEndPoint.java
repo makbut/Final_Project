@@ -46,6 +46,25 @@ public class OverviewHoursEndPoint {
     }
 
     @CrossOrigin
+    @RequestMapping(value = "/employee/{id}/overviewHours/{finalized}", method = RequestMethod.GET)
+    public ResponseEntity overviewHoursByFinalization(@PathVariable("id") long id, @PathVariable("finalized") boolean finalized) {
+
+        List<WorkDayInfo> workDayInfoList = null;
+        try {
+            List<SubmitHours> submitHoursList = new ArrayList<>();
+            workDayInfoList = workDayInfoService.getWorkDayInfoGivenIDandFinal(id,finalized);
+            workDayInfoList.forEach(workDayInfo -> {
+                SubmitHours submitHours = new SubmitHours(workDayInfo, 0, "Success");
+                submitHoursList.add(submitHours);
+            });
+            return ResponseEntity.status(HttpStatus.OK).body(submitHoursList);
+        } catch (NoSuchEmployeeException e) {
+            SubmitHours submitHours = new SubmitHours(1, "Invalid employee id");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(submitHours);
+        }
+    }
+
+    @CrossOrigin
     @RequestMapping(value = "/employee/{id}/overviewHours/{startDate}/{endDate}", method = RequestMethod.GET)
     public ResponseEntity overviewHoursByDate(@PathVariable("id") long id, @PathVariable("startDate") String startDate, @PathVariable("endDate") String endDate) {
         Iterable<SubmitHours> submitHoursList = null;
