@@ -13,4 +13,8 @@ public class DateString {
     public static LocalDate stringToLocalDate(String localDate){
         return LocalDate.parse(localDate, formatter);
     }
+
+    public static String localDateToString(LocalDate localDate){
+        return localDate.format(formatter);
+    }
 }
