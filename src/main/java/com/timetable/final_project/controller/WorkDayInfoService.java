@@ -96,13 +96,19 @@ public class WorkDayInfoService {
         return submitHours;
     }
 
-    public Iterable<SubmitHours> getFinalizedWorkDayInfoOfEveryone(){
-        List<WorkDayInfo> workDayInfos = workDayInfoRepository.findByFinalizedOrderByEmployee(true);
-        List<SubmitHours> submitHours = new ArrayList();
-        for (WorkDayInfo wdi : workDayInfos){
-            submitHours.add(new SubmitHours(wdi,0,"success"));
+    public Iterable<SubmitHours> getFinalizedWorkDayInfoOfEveryone() throws NoSuchEmployeeException {
+
+        Iterable<Employee> employees = employeeRepository.findAll();
+        Iterable<SubmitHours> submitHours;
+        List<SubmitHours> mySumbitHours = new ArrayList<>();
+        for(Employee employee : employees){
+            submitHours = getWorkDayInfoGivenIDandFinal(employee.getId(),true);
+            for(SubmitHours hours : submitHours){
+                mySumbitHours.add(hours);
+            }
         }
-        return submitHours;
+
+        return  mySumbitHours;
     }
 
 
