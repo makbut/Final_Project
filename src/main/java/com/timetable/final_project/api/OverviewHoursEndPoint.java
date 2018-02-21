@@ -78,7 +78,13 @@ public class OverviewHoursEndPoint {
     @CrossOrigin
     @RequestMapping(value = "/employee/overviewHours/", method = RequestMethod.GET)
     public ResponseEntity overviewFinalizedHoursEveryone() {
-        Iterable<SubmitHours> submitHoursList = workDayInfoService.getFinalizedWorkDayInfoOfEveryone();
+        Iterable<SubmitHours> submitHoursList = null;
+        try {
+            submitHoursList = workDayInfoService.getFinalizedWorkDayInfoOfEveryone();
+        } catch (NoSuchEmployeeException e) {
+            SubmitHours submitHours = new SubmitHours(1, "Invalid employee id");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(submitHours);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(submitHoursList);
     }
 }
