@@ -30,6 +30,7 @@ public class SubmitHours {
         setActivity(workDayInfo.getActivity());
         setWorkplace(workDayInfo.getWorkplace());
         setFinalized(workDayInfo.isFinalized());
+        setLastWorkplace(workDayInfo.getWorkplace());
     }
 
     // Invalid
