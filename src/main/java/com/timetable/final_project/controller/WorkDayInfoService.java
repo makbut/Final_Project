@@ -46,6 +46,7 @@ public class WorkDayInfoService {
             if(workDayInfo.isFinalized()){
                 throw new FinalizedDateException();
             }
+
         }else{
             workDayInfo = new WorkDayInfo();
             save = true;
