@@ -68,12 +68,12 @@ public class WorkDayInfoService {
                 submitHours.getActivity(),
                 submitHours.getHours(),
                 submitHours.isFinalized());
-        employee.setLastWorkplace(submitHours.getWorkplace());
-        submitHours.setLastWorkplace(submitHours.getWorkplace());
 
         if(save) {
+            employee.setLastWorkplace(submitHours.getWorkplace());
             return workDayInfoRepository.save(workDayInfo);
         }else{
+            employee.setLastWorkplace(submitHours.getWorkplace());
             return workDayInfo;
         }
 
