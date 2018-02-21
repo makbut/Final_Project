@@ -49,14 +49,9 @@ public class OverviewHoursEndPoint {
     @RequestMapping(value = "/employee/{id}/overviewHours/{finalized}", method = RequestMethod.GET)
     public ResponseEntity overviewHoursByFinalization(@PathVariable("id") long id, @PathVariable("finalized") boolean finalized) {
 
-        List<WorkDayInfo> workDayInfoList = null;
+        Iterable<SubmitHours> submitHoursList;
         try {
-            List<SubmitHours> submitHoursList = new ArrayList<>();
-            workDayInfoList = workDayInfoService.getWorkDayInfoGivenIDandFinal(id,finalized);
-            workDayInfoList.forEach(workDayInfo -> {
-                SubmitHours submitHours = new SubmitHours(workDayInfo, 0, "Success");
-                submitHoursList.add(submitHours);
-            });
+            submitHoursList = workDayInfoService.getWorkDayInfoGivenIDandFinal(id,finalized);
             return ResponseEntity.status(HttpStatus.OK).body(submitHoursList);
         } catch (NoSuchEmployeeException e) {
             SubmitHours submitHours = new SubmitHours(1, "Invalid employee id");
@@ -79,11 +74,11 @@ public class OverviewHoursEndPoint {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(submitHours);
         }
     }
-}
 
-/*
-* TODO
-* Check if not long id is not provided
-* Send enums with @GET
-* Create overview by workplace (and activity)
-* */
+    @CrossOrigin
+    @RequestMapping(value = "/employee/overviewHours/", method = RequestMethod.GET)
+    public ResponseEntity overviewFinalizedHoursEveryone() {
+        Iterable<SubmitHours> submitHoursList = workDayInfoService.getFinalizedWorkDayInfoOfEveryone();
+        return ResponseEntity.status(HttpStatus.OK).body(submitHoursList);
+    }
+}

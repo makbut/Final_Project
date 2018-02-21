@@ -85,10 +85,24 @@ public class WorkDayInfoService {
         return workDayInfoRepository.findByEmployeeOrderByDateAsc(employee);
     }
 
-    public List<WorkDayInfo> getWorkDayInfoGivenIDandFinal(long id, boolean finalized) throws NoSuchEmployeeException {
+    public Iterable<SubmitHours> getWorkDayInfoGivenIDandFinal(long id, boolean finalized) throws NoSuchEmployeeException {
         Employee employee = employeeRepository.findOne(id);
         if (employee == null) throw new NoSuchEmployeeException();
-        return workDayInfoRepository.findByEmployeeAndFinalizedOrderByDateAsc(employee, finalized);
+        List<WorkDayInfo> workDayInfos = workDayInfoRepository.findByEmployeeAndFinalizedOrderByDateAsc(employee, finalized);
+        List<SubmitHours> submitHours = new ArrayList();
+        for (WorkDayInfo wdi : workDayInfos){
+            submitHours.add(new SubmitHours(wdi,0,"success"));
+        }
+        return submitHours;
+    }
+
+    public Iterable<SubmitHours> getFinalizedWorkDayInfoOfEveryone(){
+        List<WorkDayInfo> workDayInfos = workDayInfoRepository.findByFinalizedOrderByEmployee(true);
+        List<SubmitHours> submitHours = new ArrayList();
+        for (WorkDayInfo wdi : workDayInfos){
+            submitHours.add(new SubmitHours(wdi,0,"success"));
+        }
+        return submitHours;
     }
 
 
