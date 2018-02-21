@@ -76,7 +76,7 @@ public class OverviewHoursEndPoint {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/employee/overviewHours/", method = RequestMethod.GET)
+    @RequestMapping(value = "/employee/overviewHours", method = RequestMethod.GET)
     public ResponseEntity overviewFinalizedHoursEveryone() {
         Iterable<SubmitHours> submitHoursList = null;
         try {
