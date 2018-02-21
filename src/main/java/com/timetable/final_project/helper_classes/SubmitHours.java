@@ -26,7 +26,7 @@ public class SubmitHours {
         setStatusCode(code);
         setEmployeeId(workDayInfo.getEmployee().getId());
         setHours(workDayInfo.getHours());
-        setDate(workDayInfo.getDate().toString());
+        setDate(DateString.localDateToString(workDayInfo.getDate()));
         setActivity(workDayInfo.getActivity());
         setWorkplace(workDayInfo.getWorkplace());
         setFinalized(workDayInfo.isFinalized());
